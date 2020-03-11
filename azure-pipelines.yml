@@ -4,20 +4,36 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+    npm run build
+  displayName: 'npm install and build'
+=======
   - master
 
 variables:
   # Subscription needs a storage account and a website
-  azureSubscription: 'YOUR_SUB'
+  azureSubscription: 'flopescontas@gmail.com'
 
   # Needs to be a linux app service and there are a bunch of env variables that need to be set on it
-  serverWebAppName: 'YOUR_SERVER_NAME'
+  serverWebAppName: 'https://fcruzlopes.github.io/personal-site/'
 
   # This needs to have a static website setup with the default container ($web)
-  clientBlobAccountName: 'YOUR_STORAGE_NAME'
+  clientBlobAccountName: 'fcruzlopes'
 
   # This is provided to the client app so it knows how to hit the right server
-  serverUrl: 'YOUR_SERVER_URL'
+  serverUrl: 'https://fcruzlopes.github.io/personal-site/'
 
   # We build on linux to remove any dependancies on windows stuff / can move to GCP or AWS
   vmImageName: 'ubuntu-latest'
